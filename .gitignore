@@ -1,0 +1,10 @@
+.vscode/
+*.war
+pom.properties
+/target/
+*.class
+*.log
+.env
+.classpath
+.project
+.settings/
