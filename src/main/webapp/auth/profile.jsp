@@ -1,9 +1,12 @@
 <%@ page session="true" %> 
 <%@ page language="java" contentType="text/html; charset=UTF-8" %> 
+<%@ page import="model.Deck" %>
+<%@ page import="java.util.List" %> 
 
 <%
   if(session == null || session.getAttribute("username") == null){ 
-    response.sendRedirect("login.jsp"); 
+    response.sendRedirect(request.getContextPath() + "/login"); 
+    return;
   }
 %>
 
@@ -44,5 +47,29 @@
         document.getElementById("logoutModal").style.display = "none";
       };
     </script>
+
+    <h1>My Decks</h1>
+    <%
+      List<Deck> userDecks = (List<Deck>) request.getAttribute("userDecks");
+      if (userDecks != null && !userDecks.isEmpty()) {
+    %>
+      <ul>
+      <% for (Deck deck : userDecks) { %>
+          <li>
+              <strong><%= deck.getDeckName() %></strong><br>
+              Category: <%= deck.getDeckCategory() %><br>
+              Description: <%= deck.getDeckDescription() %><br>
+              Created At: <%= deck.getCreatedAt() %><br>
+              <a href="<%= request.getContextPath() %>/decks/detail/<%= deck.getDeckId() %>">View Deck</a>
+          </li>
+      <% } %>
+      </ul>
+    <%
+        } else {
+    %>
+        <p>No decks found.</p>
+    <%
+        }
+    %>
   </body>
 </html>

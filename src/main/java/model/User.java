@@ -1,12 +1,19 @@
 package model;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 public class User {
   private int userId;
   private String username;
   private String password;
   private Timestamp createdAt;
+  private List<Deck> decks;
+
+  public User() {
+    decks = new ArrayList<Deck>();
+  }
 
   public int getUserId() {
     return userId;
@@ -38,5 +45,13 @@ public class User {
 
   public void setCreatedAt(Timestamp createdAt) {
     this.createdAt = createdAt;
+  }
+
+  public List<Deck> getDecks() {
+    return decks;
+  }
+
+  public void setDecks(List<Deck> decks) {
+    this.decks = decks;
   }
 }

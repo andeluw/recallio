@@ -43,8 +43,8 @@ public class UserRepository {
     return false;
   }
 
-  public boolean loginUser(User user) throws SQLException {
-    String query = "SELECT password FROM users WHERE username = ?";
+  public int loginUser(User user) throws SQLException {
+    String query = "SELECT user_id, password FROM users WHERE username = ?";
     try {
       PreparedStatement stmt = connection.prepareStatement(query);
       stmt.setString(1, user.getUsername());
@@ -53,7 +53,10 @@ public class UserRepository {
       if (res.next()) {
         password = res.getString("password");
       }
-      return Password.checkPassword(password, user.getPassword());
+      if (Password.checkPassword(password, user.getPassword())) {
+        return res.getInt("user_id");
+      } else
+        return -1;
     } catch (SQLException err) {
       throw new SQLException("Error logging in user", err);
     }

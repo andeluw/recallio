@@ -9,7 +9,7 @@
   </head>
   <body>
     <div>
-      <form action="/recallio/register" method="post">
+      <form action="<%= request.getContextPath()%>/register" method="post">
         <div>
           <label for="username">Username: </label>
           <input

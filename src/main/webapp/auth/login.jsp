@@ -1,23 +1,20 @@
 <%@ page session="true" %> 
 <%@ page language="java" contentType="text/html; charset=UTF-8" %> 
 
-<%
-  if(session.getAttribute("username") != null){ 
-    response.sendRedirect("profile.jsp"); 
-  }
-%>
+<% if(session.getAttribute("username") != null){
+response.sendRedirect(request.getContextPath() + "/profile"); } %>
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sign Up</title>
+    <title>Login</title>
   </head>
   <body>
     <h1>Login</h1>
     <div>
-      <form action="/recallio/login" method="post">
+      <form action="<%= request.getContextPath()%>/login" method="post">
         <div>
           <label for="username">Username: </label>
           <input

@@ -1,4 +1,4 @@
-package controller;
+package controller.auth;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,9 +16,10 @@ import model.User;
 import repository.UserRepository;
 import util.DBConnection;
 
+@WebServlet(name = "LoginServlet", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+    RequestDispatcher dispatcher = request.getRequestDispatcher("/auth/login.jsp");
     dispatcher.forward(request, response);
   }
 
@@ -27,7 +29,7 @@ public class LoginServlet extends HttpServlet {
 
     if (password == null || password.trim().isEmpty() || username == null || username.trim().isEmpty()) {
       request.setAttribute("errorMessage", "Username and password are required");
-      RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+      RequestDispatcher dispatcher = request.getRequestDispatcher("/auth/login.jsp");
       dispatcher.forward(request, response);
       return;
     }
@@ -40,13 +42,16 @@ public class LoginServlet extends HttpServlet {
       user.setUsername(username);
       user.setPassword(password);
 
-      if (userRepository.loginUser(user)) {
+      int userId = userRepository.loginUser(user);
+
+      if (userId != -1) {
         HttpSession session = request.getSession(true);
         session.setAttribute("username", username);
-        response.sendRedirect("profile.jsp");
+        session.setAttribute("userId", userId);
+        response.sendRedirect(request.getContextPath() + "/profile");
       } else {
         request.setAttribute("errorMessage", "Invalid username or password");
-        RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/auth/login.jsp");
         dispatcher.forward(request, response);
       }
     } catch (SQLException err) {

@@ -1,4 +1,4 @@
-package controller;
+package controller.auth;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -11,13 +11,15 @@ import util.Password;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@WebServlet(name = "RegisterServlet", urlPatterns = "/register")
 public class RegisterServlet extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    RequestDispatcher dispatcher = request.getRequestDispatcher("register.jsp");
+    RequestDispatcher dispatcher = request.getRequestDispatcher("/auth/register.jsp");
     dispatcher.forward(request, response);
   }
 
@@ -31,7 +33,7 @@ public class RegisterServlet extends HttpServlet {
 
       if (userRepository.usernameExists(username)) {
         request.setAttribute("errorMessage", "Username already exists");
-        RequestDispatcher dispatcher = request.getRequestDispatcher("register.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/auth/register.jsp");
         dispatcher.forward(request, response);
       } else {
         User newUser = new User();
@@ -40,10 +42,10 @@ public class RegisterServlet extends HttpServlet {
 
         boolean isRegistered = userRepository.registerUser(newUser);
         if (isRegistered) {
-          response.sendRedirect("login.jsp");
+          response.sendRedirect(request.getContextPath() + "/login");
         } else {
           request.setAttribute("errorMessage", "Registration failed. Try again!");
-          RequestDispatcher dispatcher = request.getRequestDispatcher("register.jsp");
+          RequestDispatcher dispatcher = request.getRequestDispatcher("/auth/register.jsp");
           dispatcher.forward(request, response);
         }
       }
