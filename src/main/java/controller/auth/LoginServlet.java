@@ -44,13 +44,17 @@ public class LoginServlet extends HttpServlet {
 
       int userId = userRepository.loginUser(user);
 
-      if (userId != -1) {
+      if (userId > 0) {
         HttpSession session = request.getSession(true);
         session.setAttribute("username", username);
         session.setAttribute("userId", userId);
         response.sendRedirect(request.getContextPath() + "/profile");
+      } else if (userId == -2) {
+        request.setAttribute("errorMessage", "Username does not exist");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/auth/login.jsp");
+        dispatcher.forward(request, response);
       } else {
-        request.setAttribute("errorMessage", "Invalid username or password");
+        request.setAttribute("errorMessage", "Invalid password");
         RequestDispatcher dispatcher = request.getRequestDispatcher("/auth/login.jsp");
         dispatcher.forward(request, response);
       }

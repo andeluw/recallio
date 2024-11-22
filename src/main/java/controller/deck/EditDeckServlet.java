@@ -19,6 +19,15 @@ import util.DBConnection;
 @WebServlet(name = "EditDeckServlet", urlPatterns = "/decks/edit/*")
 public class EditDeckServlet extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    HttpSession session = request.getSession();
+
+    if (session == null || session.getAttribute("userId") == null) {
+      response.sendRedirect(request.getContextPath() + "/login");
+      return;
+    }
+
+    int userId = (int) session.getAttribute("userId");
+
     try {
       String pathInfo = request.getPathInfo();
       if (pathInfo == null || pathInfo.equals("/")) {
@@ -27,14 +36,6 @@ public class EditDeckServlet extends HttpServlet {
       }
 
       int deckId = Integer.parseInt(pathInfo.substring(1));
-
-      HttpSession session = request.getSession();
-      int userId = (int) session.getAttribute("userId");
-
-      if (session == null || session.getAttribute("userId") == null) {
-        response.sendRedirect(request.getContextPath() + "/login");
-        return;
-      }
 
       Connection connection = DBConnection.getConnection();
       DeckRepository deckRepository = new DeckRepository(connection);

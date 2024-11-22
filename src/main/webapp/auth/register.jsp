@@ -8,6 +8,7 @@
     <title>Sign Up</title>
   </head>
   <body>
+    <h1>Sign Up</h1>
     <div>
       <form action="<%= request.getContextPath()%>/register" method="post">
         <div>

@@ -20,11 +20,16 @@ import util.DBConnection;
 @WebServlet(name = "ProfileServlet", urlPatterns = "/profile")
 public class ProfileServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    HttpSession session = request.getSession();
+    if (session.getAttribute("userId") == null || session == null) {
+      response.sendRedirect(request.getContextPath() + "/login");
+      return;
+    }
+
     try {
       Connection connection = DBConnection.getConnection();
       DeckRepository deckRepository = new DeckRepository(connection);
       User user = new User();
-      HttpSession session = request.getSession();
       int userId = (int) session.getAttribute("userId");
       user.setUserId(userId);
       Deck deck = new Deck();

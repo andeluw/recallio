@@ -52,6 +52,8 @@ public class UserRepository {
       String password = "";
       if (res.next()) {
         password = res.getString("password");
+      } else {
+        return -2;
       }
       if (Password.checkPassword(password, user.getPassword())) {
         return res.getInt("user_id");
