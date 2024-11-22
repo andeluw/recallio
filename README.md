@@ -2,19 +2,6 @@
 
 Recallio is a flashcard app built using Java Server Pages (JSP) and Servlets. It allows users to create and manage flashcard decks, track their learning progress, and study various topics using flashcards. This project was created to fulfill the 2nd quiz of the Web Programming F course.
 
-## Features
-
-- **Create Flashcard Decks**: Users can create and customize flashcard decks with different categories.
-- **View and Study Decks**: Access the decks and study the flashcards in each category.
-- **User-Friendly Interface**: Designed with a clean, intuitive interface for seamless user experience.
-
-## Tech Stack
-
-- **Backend**: Java (JSP, Servlets)
-- **Database**: MySQL (or any SQL-based database)
-- **Frontend**: HTML, CSS (TailwindCSS)
-- **Build Tool**: Maven (or Gradle, depending on your setup)
-- **Database Migration**: Flyway (or SQL scripts)
 
 ## Setup Instructions
 
