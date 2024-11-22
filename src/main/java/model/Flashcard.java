@@ -5,10 +5,11 @@ import java.sql.Timestamp;
 public class Flashcard {
   private int flashcardId;
   private int deckId;
-  private String flashCardTitle;
-  private String flashCardDetail;
+  private String flashcardTitle;
+  private String flashcardDetail;
   private Timestamp createdAt;
   private Timestamp updatedAt;
+  private int userId;
 
   public int getFlashcardId() {
     return flashcardId;
@@ -26,20 +27,20 @@ public class Flashcard {
     this.deckId = deckId;
   }
 
-  public String getFlashCardTitle() {
-    return flashCardTitle;
+  public String getFlashcardTitle() {
+    return flashcardTitle;
   }
 
-  public void setFlashCardTitle(String flashCardTitle) {
-    this.flashCardTitle = flashCardTitle;
+  public void setFlashcardTitle(String flashcardTitle) {
+    this.flashcardTitle = flashcardTitle;
   }
 
-  public String getFlashCardDetail() {
-    return flashCardDetail;
+  public String getFlashcardDetail() {
+    return flashcardDetail;
   }
 
-  public void setFlashCardDetail(String flashCardDetail) {
-    this.flashCardDetail = flashCardDetail;
+  public void setFlashcardDetail(String flashcardDetail) {
+    this.flashcardDetail = flashcardDetail;
   }
 
   public Timestamp getCreatedAt() {
@@ -56,5 +57,13 @@ public class Flashcard {
 
   public void setUpdatedAt(Timestamp updatedAt) {
     this.updatedAt = updatedAt;
+  }
+
+  public int getUserId() {
+    return userId;
+  }
+
+  public void setUserId(int userId) {
+    this.userId = userId;
   }
 }

@@ -44,7 +44,6 @@ public class DeckDetailServlet extends HttpServlet {
           request.setAttribute("isOwner", false);
         }
       }
-
     } catch (NumberFormatException err) {
       response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid deck id");
       return;

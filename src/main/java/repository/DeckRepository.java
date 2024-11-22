@@ -53,6 +53,9 @@ public class DeckRepository {
         deck.setDeckDescription(res.getString("d_description"));
         deck.setCreatedAt(res.getTimestamp("created_at"));
         deck.setUpdatedAt(res.getTimestamp("updated_at"));
+
+        FlashcardRepository flashcardRepository = new FlashcardRepository(connection);
+        deck.setFlashcards(flashcardRepository.getFlashcardsByDeckId(deck));
         return deck;
       }
     } catch (SQLException err) {
@@ -88,7 +91,7 @@ public class DeckRepository {
     }
   }
 
-  public List<Deck> getDecksByUserId(Deck deck) {
+  public List<Deck> getDecksByUserId(Deck deck) throws SQLException {
     String query = "SELECT * FROM decks WHERE user_id = ?";
     try {
       PreparedStatement stmt = connection.prepareStatement(query);
@@ -108,8 +111,68 @@ public class DeckRepository {
       }
       return decks;
     } catch (SQLException err) {
-      System.out.println("Error getting decks by user id");
+      throw new SQLException("Error getting deck", err);
     }
-    return null;
   }
+
+  public List<Deck> getAllDecks() throws SQLException {
+    String query = "SELECT * FROM decks";
+    try {
+      PreparedStatement stmt = connection.prepareStatement(query);
+      ResultSet res = stmt.executeQuery();
+      List<Deck> decks = new ArrayList<Deck>();
+      while (res.next()) {
+        Deck tempDeck = new Deck();
+        tempDeck.setDeckId(res.getInt("d_id"));
+        tempDeck.setUserId(res.getInt("user_id"));
+        tempDeck.setDeckName(res.getString("d_name"));
+        tempDeck.setDeckCategory(res.getString("d_category"));
+        tempDeck.setDeckDescription(res.getString("d_description"));
+        tempDeck.setCreatedAt(res.getTimestamp("created_at"));
+        tempDeck.setUpdatedAt(res.getTimestamp("updated_at"));
+        decks.add(tempDeck);
+      }
+      return decks;
+    } catch (SQLException err) {
+      throw new SQLException("Error getting all decks", err);
+    }
+  }
+
+  public List<Deck> getDeckByName(Deck deck, boolean withCategory) throws SQLException {
+    String queryWithoutCategory = "SELECT * FROM decks WHERE (LOWER(d_name) LIKE LOWER(?) OR LOWER(d_description) LIKE LOWER(?)) AND d_category IS NOT NULL";
+    String queryWithCategory = "SELECT * FROM decks WHERE d_category = ? AND (LOWER(d_name) LIKE LOWER(?) OR LOWER(d_description) LIKE LOWER(?))";
+
+    try {
+      PreparedStatement stmt;
+      if (!withCategory) {
+        stmt = connection.prepareStatement(queryWithoutCategory);
+        stmt.setString(1, "%" + deck.getDeckName() + "%");
+        stmt.setString(2, "%" + deck.getDeckDescription() + "%");
+      } else {
+        stmt = connection.prepareStatement(queryWithCategory);
+        stmt.setString(1, deck.getDeckCategory());
+        stmt.setString(2, "%" + deck.getDeckName() + "%");
+        stmt.setString(3, "%" + deck.getDeckDescription() + "%");
+      }
+
+      try (ResultSet res = stmt.executeQuery()) {
+        List<Deck> decks = new ArrayList<>();
+        while (res.next()) {
+          Deck tempDeck = new Deck();
+          tempDeck.setDeckId(res.getInt("d_id"));
+          tempDeck.setUserId(res.getInt("user_id"));
+          tempDeck.setDeckName(res.getString("d_name"));
+          tempDeck.setDeckCategory(res.getString("d_category"));
+          tempDeck.setDeckDescription(res.getString("d_description"));
+          tempDeck.setCreatedAt(res.getTimestamp("created_at"));
+          tempDeck.setUpdatedAt(res.getTimestamp("updated_at"));
+          decks.add(tempDeck);
+        }
+        return decks;
+      }
+    } catch (SQLException err) {
+      throw new SQLException("Error searching deck", err);
+    }
+  }
+
 }
