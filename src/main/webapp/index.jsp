@@ -65,10 +65,15 @@
     <div class="p-6">
       <div class="flex justify-between items-center mb-6">
         <h2 class="text-3xl font-semibold text-white ml-2">All Decks</h2>
-        <a href="<%= request.getContextPath() %>/decks/create" class="px-6 py-3 flex gap-2 bg-violet-800 text-white rounded-md hover:bg-violet-900 transition-colors font-semibold items-center">
-          <p>Create Deck</p>
-          <i class="fa-solid fa-plus text-white"></i>
-        </a>
+        <% 
+          Object userId = session.getAttribute("userId");
+          if (userId != null) {
+        %>
+          <a href="<%= request.getContextPath() %>/decks/create" class="px-6 py-3 flex gap-2 bg-violet-800 text-white rounded-md hover:bg-violet-900 transition-colors font-semibold items-center">
+            <p>Create Deck</p>
+            <i class="fa-solid fa-plus text-white"></i>
+          </a>
+        <% } %>
       </div>
       <% 
         List<Deck> allDecks = null;
@@ -101,7 +106,7 @@
           <% } %>
         </div>
       <% } else { %>
-        <p class="text-zinc-200 text-center text-base font-medium">You haven't created any decks yet. Start building your first deck!</p>
+        <p class="text-zinc-200 text-base font-medium ml-2">No decks have been created.</p>
       <% } %>
     </div>
   </div>

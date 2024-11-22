@@ -1,3 +1,13 @@
+<%@ page session="true" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" %> 
+
+<%
+  if (session == null || session.getAttribute("username") == null) { 
+    response.sendRedirect(request.getContextPath() + "/login"); 
+    return;
+  }
+%>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>

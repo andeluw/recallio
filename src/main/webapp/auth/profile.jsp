@@ -40,7 +40,7 @@
   <body class="bg-zinc-950 text-white font-sans">
     <div class="flex items-center justify-center p-10">
       <div>
-        <div class="p-10 rounded-xl shadow-xl">
+        <div class="">
           <div class="text-center mb-6 w-full">
             <h1 class="text-4xl font-bold text-white">Hello, <%= session.getAttribute("username") %>!</h1>
             <p class="text-zinc-300 text-base mt-4 font-medium">
@@ -69,16 +69,17 @@
           </div>
         </div>
   
-        <div class="p-8 rounded-xl shadow-xl mt-8">
-          <div class="flex justify-between items-center mb-2">
-            <h2 class="text-3xl font-bold text-white ml-2">Your Decks</h2>
+        <div class="mt-8 w-full mx-0">
+          <div class="flex justify-between items-center mb-2 gap-6">
+            <div>
+              <h2 class="text-3xl font-bold text-white ml-2">Your Decks</h2>
+              <p class="text-md text-zinc-400 mb-6 font-medium ml-2 mt-2">Manage, view, and track your progress with your personalized decks. Create new ones to continue building your collection!</p>
+            </div>
             <a href="<%= request.getContextPath() %>/decks/create" class="px-6 py-3 flex gap-2 bg-violet-800 text-white rounded-md hover:bg-violet-900 transition-colors font-semibold items-center">
               <p>Create Deck</p>
               <i class="fa-solid fa-plus text-white"></i>
             </a>
           </div>
-  
-          <p class="text-md text-zinc-400 mb-6 font-medium ml-2">Manage, view, and track your progress with your personalized decks. Create new ones to continue building your collection!</p>
   
           <% 
             List<Deck> userDecks = (List<Deck>) request.getAttribute("userDecks");
@@ -101,7 +102,7 @@
               <% } %>
             </div>
           <% } else { %>
-            <p class="text-zinc-200 text-center">You haven't created any decks yet. Start building your first deck!</p>
+            <p class="text-zinc-200 ml-2">You haven't created any decks yet. Start building your first deck!</p>
           <% } %>
         </div>
       </div>

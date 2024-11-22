@@ -109,7 +109,7 @@
             }
           } else { 
         %>
-          <p class="text-center text-zinc-300">No flashcards available. Start adding new flashcards!</p>
+          <p class="ml-2 text-zinc-300">No flashcards have been created.</p>
         <% } %>
       </ul>
     </div>
